@@ -1,59 +1,57 @@
 @font-face {
-  font-family: 'fame-front-icon';
-  src:  url('../fonts/fame-front-icon.eot?9px6yi');
-  src:  url('../fonts/fame-front-icon.eot?9px6yi#iefix') format('embedded-opentype'),
-    url('../fonts/fame-front-icon.ttf?9px6yi') format('truetype'),
-    url('../fonts/fame-front-icon.woff?9px6yi') format('woff'),
-    url('../fonts/fame-front-icon.svg?9px6yi#fame-front-icon') format('svg');
+  font-family: 'merrycodes-front-icon';
+  src: url('../font/merrycodes-front-font.eot?41498219');
+  src: url('../font/merrycodes-front-font.eot?41498219#iefix') format('embedded-opentype'), url('../font/merrycodes-front-font.woff?41498219') format('woff'),
+    url('../font/merrycodes-front-font.ttf?41498219') format('truetype'), url('../font/merrycodes-front-font.svg?41498219#merrycodes-front-font') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'fame-front-icon' !important;
-  speak: none;
+  font-family: 'merrycodes-front-icon' !important;
   font-style: normal;
   font-weight: normal;
+  speak: none;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  text-align: center;
+
+  /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
 
-  /* Better Font Rendering =========== */
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Font smoothing. That was taken from TWBS */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-th-list:before {
-  content: "\f00b";
+.icon-up-big:before {
+  content: '\e800';
 }
-.icon-close:before {
-  content: "\f00d";
-}
-.icon-arrow-up:before {
-  content: "\f062";
-}
-.icon-eye:before {
-  content: "\f06e";
-}
-.icon-calendar:before {
-  content: "\f073";
-}
+
 .icon-folder:before {
-  content: "\f07b";
+  content: '\e801';
 }
-.icon-thumbs-o-up:before {
-  content: "\f087";
+
+.icon-calendar:before {
+  content: '\e802';
 }
-.icon-thumbs-o-down:before {
-  content: "\f088";
+
+.icon-eye:before {
+  content: '\e803';
 }
-.icon-reply:before {
-  content: "\f112";
+
+.icon-tag:before {
+  content: '\e804';
 }
-.icon-bubble2:before {
-  content: "\e96e";
-}
-.icon-rocket:before {
-  content: "\e9a5";
+
+.icon-clock:before {
+  content: '\e805';
 }

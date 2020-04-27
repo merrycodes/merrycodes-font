@@ -3,36 +3,20 @@
     <div class="header-container">
       <nuxt-link class="logo" :to="'/'">
         <img src="/logo.png" width="26px" height="26px" />
-        <span class="text-primary" style="margin-left: 10px">{{
-          options.blog_name || 'Fame'
-        }}</span>
+        <span class="text-primary" style="margin-left: 10px">{{ 'MerryCodes' }}</span>
       </nuxt-link>
       <ul class="tab link-list">
         <li v-for="(list, index) in links" :key="index" class="tab-item">
           <nuxt-link :to="{ path: list.path }" exact>{{ list.name }}</nuxt-link>
         </li>
       </ul>
-      <div class="header-menu">
-        <div class="header-menu-icon" @click="toggle">
-          <span class="icon-th-list" style="font-size: 24px"></span>
-        </div>
-        <div class="header-menu-list" :class="{ open: menuOpen }">
-          <ul>
-            <li
-              v-for="(list, index) in links"
-              :key="index"
-              class="header-menu-item text-primary"
-            >
-              <a @click="to(list.path)">{{ list.name }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
+    <github-corner style="position: absolute; top: 0px; border: 0; right: 0;" />
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import GithubCorner from './GithubCorner'
 import _ from 'underscore'
 
 const staticMenu = [
@@ -42,27 +26,23 @@ const staticMenu = [
   { path: '/archive', name: '归档' }
 ]
 export default {
+  components: { GithubCorner },
   directives: {
     fix: {
       inserted(el) {
-        let beforeScrollTop = document.documentElement.scrollTop ||
-          window.pageYOffset ||
-          window.scrollY ||
-          document.body.scrollTop
-        window.addEventListener('scroll', _.throttle(() => {
-          const afterScrollTop = document.documentElement.scrollTop ||
-            window.pageYOffset ||
-            window.scrollY ||
-            document.body.scrollTop
-          const delta = afterScrollTop - beforeScrollTop
-          if (delta === 0) return false
-          delta > 0
-            ? el.classList.add('fixed')
-            : el.classList.remove('fixed')
-          setTimeout(() => {
-            beforeScrollTop = afterScrollTop
-          }, 0)
-        }, 200))
+        let beforeScrollTop = document.documentElement.scrollTop || window.pageYOffset || window.scrollY || document.body.scrollTop
+        window.addEventListener(
+          'scroll',
+          _.throttle(() => {
+            const afterScrollTop = document.documentElement.scrollTop || window.pageYOffset || window.scrollY || document.body.scrollTop
+            const delta = afterScrollTop - beforeScrollTop
+            if (delta === 0) return false
+            delta > 0 ? el.classList.add('fixed') : el.classList.remove('fixed')
+            setTimeout(() => {
+              beforeScrollTop = afterScrollTop
+            }, 0)
+          }, 200)
+        )
       },
       unbind() {
         window.onscroll = null
@@ -71,16 +51,7 @@ export default {
   },
   data() {
     return {
-      links: [],
-      menuOpen: false
-    }
-  },
-  computed: {
-    options() {
-      return this.$store.state.option.data
-    },
-    noteMenu() {
-      return this.$store.state.note.menu
+      links: []
     }
   },
   mounted() {
@@ -88,18 +59,7 @@ export default {
   },
   methods: {
     initMenu() {
-      const links = staticMenu
-      this.noteMenu.forEach(menu => {
-        links.push({ path: '/note/' + menu.id, name: menu.title })
-      })
-      this.links = links
-    },
-    toggle() {
-      this.menuOpen = !this.menuOpen
-    },
-    to(url, query) {
-      this.$router.push({ path: url, query })
-      this.toggle()
+      this.links = staticMenu
     }
   }
 }

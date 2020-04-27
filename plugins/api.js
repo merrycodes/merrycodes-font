@@ -1,56 +1,27 @@
-import { get, post } from './http'
+import { get } from './http'
 
 const api = {
-  getPosts(page, limit, sort) {
+  getArticles(current, size) {
     const params = {
-      page,
-      limit: limit || 5,
-      sort
+      current,
+      size: size || 5
     }
-    return get('/post', params)
+    return get('/article', params)
   },
-  getPost(id) {
-    return get('/post/' + id)
+  getAllArticle() {
+    return get('/articles')
+  },
+  getArticle(id) {
+    return get('/article/' + id)
   },
   getCategories() {
     return get('/category')
   },
   getTags() {
-    return get('/tag')
-  },
-  getNoteMenu() {
-    return get('/note')
-  },
-  getNote(id) {
-    return get('/note/' + id)
+    return get('/tags')
   },
   getArchives() {
     return get('/archive')
-  },
-  getComment(articleId, page, limit) {
-    const params = {
-      articleId,
-      page,
-      limit: limit || 5
-    }
-    return get('comment', params)
-  },
-  postComment(articleId, parentId, content, name, email, website) {
-    const params = {
-      articleId,
-      parentId,
-      content,
-      name,
-      email,
-      website
-    }
-    return post('/comment', params)
-  },
-  assessComment(commentId, assess) {
-    const params = {
-      assess
-    }
-    return post('/comment/' + commentId + '/assess', params)
   },
   getOptions() {
     return get('/option')

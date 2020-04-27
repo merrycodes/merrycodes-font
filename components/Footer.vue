@@ -2,20 +2,16 @@
   <div class="footer">
     <p class="copyright">
       © 2017 | Proudly powered by
-      <a href="https://github.com/zzzzbw/Fame" target="_blank">Fame</a>
+      <a href="https://github.com/merrycodes" target="_blank">merrycodes</a>
     </p>
-    <div v-highlight class="markdown-body" v-html="options.blog_footer"></div>
+    <div v-highlight class="markdown-body">
+      <a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备20025609号</a>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-export default {
-  computed: {
-    options() {
-      return this.$store.state.option.data
-    }
-  }
-}
+export default {}
 </script>
 
 <style scoped>

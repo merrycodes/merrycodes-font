@@ -1,5 +1,4 @@
 import api from '../plugins/api'
-import tools from '../plugins/tools'
 import defaultConfig from './default-config'
 
 const config = [
@@ -7,24 +6,20 @@ const config = [
   {
     path: '/feed.xml', // The route to your feed.
     async create(feed) {
-      const optionsResp = await api.getOptions()
-      const options = optionsResp.data
       feed.options = {
-        title: options.meta_title || defaultConfig.meta_title,
-        link: tools.formatWebsite(options.blog_website) + '/feed.xml',
-        description: options.meta_description || defaultConfig.meta_description
+        title: defaultConfig.meta_title,
+        link: defaultConfig.blog_website + '/feed.xml',
+        description: defaultConfig.meta_description
       }
-
-      const articleResp = await api.getPosts(0, 999)
-      const articles = articleResp.data.list
+      const res = await api.getAllArticle()
+      const articles = res.data
       articles.forEach(article => {
         feed.addItem({
           title: article.title,
           id: article.id,
-          link:
-            tools.formatWebsite(options.blog_website) + '/post/' + article.id,
-          description: article.content,
-          content: article.content
+          link: defaultConfig.blog_website + '/article/' + article.id,
+          description: article.summaryContent,
+          content: article.summaryContent
         })
       })
       feed.addCategory('Nuxt.js')

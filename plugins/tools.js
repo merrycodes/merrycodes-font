@@ -1,24 +1,6 @@
-/************************************************************/
-
 /**
  * 通用工具类
  */
-
-/**
- * 标签转字符串
- * @param tags
- * @returns {string}
- */
-function tagsToString(tags) {
-  if (tags.length === 0) {
-    return ''
-  }
-  let str = ''
-  for (let i = 0; i < tags.length; i++) {
-    str += tags[i] + ','
-  }
-  return str.substr(0, str.length - 1)
-}
 
 /**
  * 字符串转标签
@@ -89,24 +71,7 @@ function jump(position, speed) {
   }
 }
 
-/**
- * 去除url最后的斜杠
- * @param url
- */
-function formatWebsite(url) {
-  if (!url || url === '') {
-    return ''
-  }
-  if (url.charAt(url.length - 1) === '/') {
-    return url.substr(0, url.length - 1)
-  }
-  return url
-}
-
 export default {
-  tagsToString,
   stringToTags,
-  goAnchor,
-  jump,
-  formatWebsite
+  goAnchor
 }

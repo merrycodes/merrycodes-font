@@ -9,7 +9,7 @@ export default {
    */
   head: {
     title: defaultConfig.meta_title,
-    titleTemplate: '%s - Fame',
+    titleTemplate: '%s - MerryCodes',
     meta: [
       { charset: 'utf-8' },
       { 'http-equiv': 'cleartype', content: 'on' },
@@ -57,8 +57,9 @@ export default {
     { src: '~assets/css/main.css' },
     { src: '~assets/css/normalize.css' },
     { src: '~assets/css/style.css' },
-    'highlight.js/styles/tomorrow.css',
-    { src: '~assets/css/icon.css' }
+    { src: '~assets/css/icon.css' },
+    'gitalk/dist/gitalk.css',
+    'highlight.js/styles/atom-one-dark.css'
   ],
   modules: ['@nuxtjs/sitemap', '@nuxtjs/feed'],
   sitemap: sitemapConfig.config,
@@ -81,9 +82,7 @@ export default {
         let position = {}
         if (to.matched.length < 2) {
           position = { x: 0, y: 0 }
-        } else if (
-          to.matched.some(r => r.components.default.options.scrollToTop)
-        ) {
+        } else if (to.matched.some(r => r.components.default.options.scrollToTop)) {
           position = { x: 0, y: 0 }
         }
         if (to.hash) {

@@ -1,15 +1,13 @@
+import defaultConfig from '../config/default-config'
 /* eslint-disable */
-
 export default ({ app, store }) => {
   /*
    ** Only run on client-side and only in production mode
    */
   if (process.env.NODE_ENV === 'development') return
 
-  const options = store.state.option.data
-  if (!options || !options.google_analytics || options.google_analytics === '')
-    return
-  const google_analytics = options.google_analytics
+  if (!defaultConfig.google_analytics || defaultConfig.google_analytics === '') return
+  const google_analytics = defaultConfig.google_analytics
   /*
    ** Include Google Analytics Script
    */
@@ -25,13 +23,7 @@ export default ({ app, store }) => {
     a.async = 1
     a.src = g
     m.parentNode.insertBefore(a, m)
-  })(
-    window,
-    document,
-    'script',
-    'https://www.google-analytics.com/analytics.js',
-    'ga'
-  )
+  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga')
   /*
    ** Set the current page
    */

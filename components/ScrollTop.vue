@@ -1,6 +1,6 @@
 <template>
   <div ref="scrollTop" class="scroll-top" @click="toTop">
-    <span class="icon-arrow-up" style="font-size: 28px"></span>
+    <i class="icon-up-big" style="font-size: 28px"></i>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ let isTop = true
 let osTop = null
 
 export default {
-  mounted () {
+  mounted() {
     // 顶部图标的显示与隐藏
     const scrollTop = this.$refs.scrollTop
     window.onscroll = function() {
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     // 原生js实现滑动滚动到顶端
-    toTop () {
+    toTop() {
       timer = setInterval(function() {
         osTop = document.documentElement.scrollTop || document.body.scrollTop
         const iSpeed = Math.floor(-osTop / 50) // 减速滚动

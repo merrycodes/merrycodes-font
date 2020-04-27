@@ -9,23 +9,22 @@
       <div class="timeline-content">
         <div class="tile">
           <div class="tile-content">
-            <p class="tile-subtitle">{{ archive.year }}</p>
-            <p
-              v-for="post in archive.postInfos"
-              :key="post.id"
-              class="tile-title"
-            >
-              <label class="text-italic">{{
-                post.created | time('MM-dd')
-              }}</label>
-              <nuxt-link :to="{ path: '/post/' + post.id }"
-                >{{ post.title }}
-              </nuxt-link>
+            <div :id="archive.year" class="tile-subtitle">{{ archive.year }}</div>
+            <p v-for="post in archive.articleList" :key="post.id" class="tile-title">
+              <label class="text-italic">{{ post.createTime | time('MM-dd') }}</label>
+              <nuxt-link :to="{ path: '/article/' + post.id }">{{ post.title }}</nuxt-link>
             </p>
           </div>
         </div>
       </div>
     </div>
+    <nav class="timeline-toc toc">
+      <ol class="list">
+        <li v-for="archive in archives" :key="archive.year">
+          <a class="timeline-link" @click="goAnchor(archive.year, 200)">{{ archive.year }}</a>
+        </li>
+      </ol>
+    </nav>
   </div>
 </template>
 
@@ -37,6 +36,11 @@ export default {
   computed: {
     archives() {
       return this.$store.state.archive.data
+    }
+  },
+  methods: {
+    goAnchor(id, offset) {
+      this.$util.goAnchor(id, offset)
     }
   },
   head() {
@@ -132,5 +136,61 @@ export default {
 
 .timeline .timeline-item .timeline-icon.icon-lg::before {
   content: none;
+}
+
+.timeline-toc {
+  position: fixed !important;
+  min-width: calc((100% - 1200px) / 2);
+  max-width: calc((100% - 1000px) / 2);
+  max-height: calc(100% - 120px);
+  right: 100px;
+  top: 100px;
+  transition: all 0.3s;
+  overflow-y: auto;
+}
+
+.list {
+  margin: 0;
+  padding-left: 10px;
+}
+
+.timeline-toc > .list {
+  overflow-y: hidden;
+  position: relative;
+}
+
+ul:last-child,
+ol:last-child {
+  margin-bottom: 0;
+}
+ul:first-child,
+ol:first-child {
+  margin-top: 0;
+}
+
+.timeline-toc > .list li {
+  list-style: none;
+}
+
+.timeline-link {
+  color: currentColor;
+  height: 100%;
+}
+
+.timeline-link::before {
+  background-color: #5764c6;
+  content: ' ';
+  display: inline-block;
+  height: inherit;
+  left: 0;
+  margin-top: -1px;
+  position: absolute;
+  width: 2px;
+}
+
+@media screen and (max-width: 1300px) {
+  .timeline-toc {
+    display: none;
+  }
 }
 </style>

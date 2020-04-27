@@ -1,34 +1,18 @@
 <template>
   <div>
     <div class="category-list">
-      <a
-        v-for="category in categories"
-        :key="category.id"
-        class="category text-bold"
-        @click="goAnchor('category-' + category.name)"
-      >
-        {{ category.name }}({{ category.postInfos.length }})
-      </a>
+      <a v-for="category in categories" :key="category.id" class="category text-bold" @click="goAnchor('category-' + category.name, 100)">{{ category.name }}({{ category.articleList.length }})</a>
     </div>
     <div class="category-content">
       <div class="divider"></div>
-      <div
-        v-for="category in categories"
-        :key="category.id"
-        class="category-item"
-      >
+      <div v-for="category in categories" :key="category.id" class="category-item">
         <div :id="'category-' + category.name" class="category-title">
+          <i class="icon-folder"></i>
           {{ category.name }}
         </div>
         <ul class="category-ul">
-          <li
-            v-for="post in category.postInfos"
-            :key="post.id"
-            class="article-title"
-          >
-            <nuxt-link :to="{ path: '/post/' + post.id }" class="text-primary"
-              >{{ post.title }}
-            </nuxt-link>
+          <li v-for="article in category.articleList" :key="article.id" class="article-title">
+            <nuxt-link :to="{ path: '/article/' + article.id }" class="text-primary">{{ article.title }}</nuxt-link>
           </li>
         </ul>
       </div>
@@ -38,20 +22,20 @@
 
 <script type="text/ecmascript-6">
 export default {
-  fetch ({ store }) {
+  fetch({ store }) {
     return store.dispatch('getCategories')
   },
   computed: {
-    categories () {
+    categories() {
       return this.$store.state.category.data
     }
   },
   methods: {
-    goAnchor (id) {
-      this.$util.goAnchor(id)
+  goAnchor(id, offset) {
+      this.$util.goAnchor(id, offset)
     }
   },
-  head () {
+  head() {
     return { title: `分类` }
   }
 }
@@ -91,7 +75,6 @@ export default {
 }
 
 .category-title:before {
-  content: '#';
   margin-right: 5px;
   color: #5764c6;
   font-size: 1.2em;

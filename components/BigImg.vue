@@ -5,14 +5,7 @@
         <div v-show="dialogVisible" v-click-outside="hide" class="dialog-body">
           <div class="dialog-content">
             <slot></slot>
-            <img
-              v-if="img"
-              v-click-outside="hide"
-              :src="img"
-              alt=""
-              class="close"
-              @click="hide"
-            />
+            <img v-if="img" v-click-outside="hide" :src="img" alt="" class="close" @click="hide" />
           </div>
           <div class="dialog-foot">
             <slot name="foot"></slot>

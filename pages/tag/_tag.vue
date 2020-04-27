@@ -1,29 +1,20 @@
 <template>
   <div>
     <div class="tag-list">
-      <a
-        v-for="tag in tags"
-        :key="tag.id"
-        class="tag-link"
-        @click="changePosts(tag.name)"
-      >
-        <span
-          class="tag chip"
-          :class="{ 'tag-active': tag.name === activeTag }"
-        >
-          {{ tag.name }}
-        </span>
+      <a v-for="tag in tags" :key="tag.id" class="tag-link" @click="changePosts(tag.name)">
+        <span class="tag chip" :class="{ 'tag-active': tag.name === activeTag }">{{ tag.name }}</span>
       </a>
     </div>
     <transition name="flow" mode="out-in">
       <div v-if="show" class="tag-content">
         <div class="divider"></div>
-        <div class="tag-title">{{ tagTitle }}</div>
+        <div class="tag-title">
+          <i class="icon-tag"></i>
+          {{ tagTitle }}
+        </div>
         <ul class="tag-ul">
-          <li v-for="post in postInfos" :key="post.id" class="article-title">
-            <nuxt-link :to="{ path: '/post/' + post.id }" class="text-primary"
-              >{{ post.title }}
-            </nuxt-link>
+          <li v-for="article in articleList" :key="article.id" class="article-title">
+            <nuxt-link :to="{ path: '/article/' + article.id }" class="text-primary">{{ article.title }}</nuxt-link>
           </li>
         </ul>
       </div>
@@ -33,27 +24,27 @@
 
 <script type="text/ecmascript-6">
 export default {
-  fetch ({ store }) {
+  fetch({ store }) {
     return store.dispatch('getTags')
   },
   data() {
     return {
-      postInfos: [],
+      articleList: [],
       tagTitle: '',
       activeTag: '',
       show: false
     }
   },
   computed: {
-    tags () {
+    tags() {
       return this.$store.state.tag.data
     }
   },
-  mounted () {
+  mounted() {
     this.initTag()
   },
   methods: {
-    initTag () {
+    initTag() {
       const tag = this.$route.params.tag
       const tagDom = document.getElementsByClassName('tag-link')
       for (let i = 0; i < tagDom.length; i++) {
@@ -67,18 +58,18 @@ export default {
         }
       }
     },
-    changePosts (name) {
+    changePosts(name) {
       const tag = this.tags.find(tag => Object.is(tag.name, name))
       if (tag) {
         this.activeTag = name
         this.show = false
         this.tagTitle = tag.name
-        this.postInfos = tag.postInfos
+        this.articleList = tag.articleList
         this.show = true
       }
     }
   },
-  head () {
+  head() {
     return { title: `标签` }
   }
 }
@@ -93,7 +84,6 @@ export default {
 
 .tag-link {
   text-decoration: none;
-  text-underline: none;
 }
 
 .tag {
@@ -133,7 +123,6 @@ export default {
 }
 
 .tag-title:before {
-  content: '#';
   margin-right: 5px;
   color: #5764c6;
   font-size: 1.2em;

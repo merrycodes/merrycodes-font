@@ -1,53 +1,38 @@
 <template>
   <div>
-    <div v-for="post in posts" :key="post.id" class="article-item">
+    <div v-for="article in articles" :key="article.id" class="article-item">
       <h2 class="article-head text-bold">
-        <nuxt-link :to="{ path: '/post/' + post.id }"
-          >{{ post.title }}
-        </nuxt-link>
+        <nuxt-link :to="{ path: '/article/' + article.id }">{{ article.title }}</nuxt-link>
       </h2>
-      <p v-if="post.category" class="article-date">
-        <span class="icon-folder"></span>
-        {{ post.category | formatCategory }}
+      <p v-if="article.category" class="article-date">
+        <i class="icon-folder"></i>
+        {{ article.category }}
       </p>
       <p class="article-date text-italic">
-        <span class="icon-calendar"></span>
-        {{ post.created | time('yyyy-MM-dd') }}
+        <i class="icon-calendar"></i>
+        {{ article.createTime | time('yyyy-MM-dd') }}
       </p>
-      <p class="article-date"><span class="icon-eye"></span> {{ post.hits }}</p>
       <p class="article-date">
-        <span class="icon-bubble2"> {{ post.commentCount }} </span>
+        <i class="icon-eye"></i>
+        {{ article.browse }}
       </p>
       <div class="article-tags">
-        <label
-          v-for="tag in $util.stringToTags(post.tags)"
-          :key="tag"
-          class="article-tag"
-        >
-          <nuxt-link :to="{ path: '/tag/' + tag }">#{{ tag }}</nuxt-link>
+        <label v-for="tag in $util.stringToTags(article.tags)" :key="tag" class="article-tag">
+          <nuxt-link :to="{ path: '/tag/' + tag }">
+            <i class="icon-tag"></i>
+            {{ tag }}
+          </nuxt-link>
         </label>
       </div>
-      <div
-        v-highlight
-        class="article-summary markdown-body"
-        v-html="post.content"
-      ></div>
-      <nuxt-link
-        class="article-more text-primary"
-        :to="{ path: '/post/' + post.id }"
-        >Read more
-      </nuxt-link>
+      <div v-highlight class="article-summary markdown-body" v-html="article.summaryContent"></div>
+      <nuxt-link class="article-more text-primary" :to="{ path: '/article/' + article.id }">Read more</nuxt-link>
     </div>
     <div class="front-page">
-      <div v-if="currentPage > 0" class="pre text-primary">
-        <nuxt-link :to="{ path: '', query: { page: currentPage - 1 } }"
-          >← Pre
-        </nuxt-link>
+      <div v-if="currentPage > 1" class="pre text-primary">
+        <nuxt-link :to="{ path: '', query: { page: currentPage - 1 } }">← Pre</nuxt-link>
       </div>
-      <div v-if="currentPage + 1 < totalPage" class="next text-primary">
-        <nuxt-link :to="{ path: '', query: { page: currentPage + 1 } }"
-          >Next →
-        </nuxt-link>
+      <div v-if="currentPage < totalPage" class="next text-primary">
+        <nuxt-link :to="{ path: '', query: { page: currentPage + 1 } }">Next →</nuxt-link>
       </div>
     </div>
   </div>
@@ -56,27 +41,26 @@
 <script type="text/ecmascript-6">
 export default {
   watchQuery: ['page'],
-  key: (to) => to.fullPath,
+  key: to => to.fullPath,
   transition(to, from) {
     return 'move'
   },
-  fetch({ store, query }) {
+  fetch({ context, store, query }) {
     const params = {
-      page: query.page || 0,
-      limit: 5,
-      sort: ['priority','id']
+      current: query.page || 1,
+      size: 5
     }
-    return store.dispatch('getPosts', params)
+    return store.dispatch('getArticles', params)
   },
   computed: {
-    posts() {
-      return this.$store.state.post.list.data
+    articles() {
+      return this.$store.state.article.list.data
     },
     totalPage() {
-      return this.$store.state.post.list.totalPage
+      return this.$store.state.article.list.totalPage
     },
     currentPage() {
-      return this.$store.state.post.list.currentPage
+      return this.$store.state.article.list.currentPage
     }
   },
   head() {

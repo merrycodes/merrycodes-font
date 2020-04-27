@@ -3,10 +3,8 @@ import * as filters from './filters'
 import clickOutside from './clickoutside'
 import { highlight } from './highlight'
 import Vue from 'vue'
-import gravarar from 'gravatar'
 
 Vue.prototype.$util = util
-Vue.prototype.$gravarar = gravarar
 
 // 引用 fiters
 const fs = filters

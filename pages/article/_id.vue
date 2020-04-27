@@ -1,91 +1,103 @@
 <template>
   <div id="article">
-    <h2 class="article-title text-bold">{{ post.title }}</h2>
+    <h2 class="article-title text-bold">{{ article.title }}</h2>
     <div class="article-info">
-      <p v-if="post.category" class="article-category">
-        <span class="icon-folder"></span>
-        {{ post.category | formatCategory }}
+      <p v-if="article.category" class="article-category">
+        <i class="icon-folder"></i>
+        {{ article.category }}
       </p>
       <p class="article-date">
-        <span class="icon-calendar"></span>
-        {{ post.created | time('yyyy-MM-dd') }}
+        <i class="icon-calendar"></i>
+        {{ article.createTime | time('yyyy-MM-dd') }}
       </p>
-      <p class="article-date"><span class="icon-eye"></span> {{ post.hits }}</p>
       <p class="article-date">
-        <span class="icon-bubble2"> {{ post.commentCount }} </span>
+        <i class="icon-eye"></i>
+        {{ article.browse }}
       </p>
     </div>
-    <div v-highlight class="markdown-body" v-html="post.content"></div>
-    <div v-if="post.tags" class="article-tags">
-      <label class="label-tags">Tags:</label>
-      <span
-        v-for="tag in $util.stringToTags(post.tags)"
-        :key="tag"
-        class="article-tag"
-      >
-        <nuxt-link :to="{ path: '/tag/' + tag }">#{{ tag }}</nuxt-link>
-      </span>
+    <div v-highlight class="markdown-content" v-html="article.htmlContent"></div>
+    <div v-if="article.tags" class="article-tags tag">
+      <div>
+        <label class="label-tags">Tags:</label>
+        <span v-for="tag in $util.stringToTags(article.tags)" :key="tag" class="article-tag">
+          <nuxt-link :to="{ path: '/tag/' + tag }">
+            <i class="icon-tag"></i>
+            {{ tag }}
+          </nuxt-link>
+        </span>
+      </div>
+      <div>
+        <small>
+          <i class="icon-clock"></i>
+          最后一次更新于{{ article.updateTime }}
+        </small>
+      </div>
     </div>
     <nav class="markdown-toc toc"></nav>
-    <comment v-if="post.allowComment" :article-id="post.id"></comment>
+    <h2 style="color: rgb(61, 80, 100); border-top: 1px dashed rgb(61, 80, 100); padding-top: 15px; margin-top: 30px;">发表评论：</h2>
+    <gitalk></gitalk>
     <big-img :visible.sync="isBigImg" :img="img"></big-img>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import tocbot from 'tocbot'
-import Comment from '~/components/Comment.vue'
 import BigImg from '~/components/BigImg.vue'
+import Gitalk from '~/components/Gitalk.vue'
 
 export default {
   components: {
-    Comment,
-    BigImg
+    BigImg,
+    Gitalk
   },
-  fetch ({ store, params }) {
-    return store.dispatch('getPost', params.id)
+  fetch({ store, params }) {
+    return store.dispatch('getArticle', params.id)
   },
-  data () {
+  data() {
     return {
       isBigImg: false,
       img: ''
     }
   },
   computed: {
-    post () {
-      return this.$store.state.post.detail
+    article() {
+      return this.$store.state.article.detail
     }
   },
-  mounted () {
+  mounted() {
     this.tocInit()
     this.initEvent()
   },
   methods: {
-    initEvent () {
-      const markdown = document.getElementsByClassName('markdown-body')[0]
+    initEvent() {
+      const markdown = document.getElementsByClassName('markdown-content')[0]
       const imgs = markdown.getElementsByTagName('img')
       const _this = this
       for (let i = 0; i < imgs.length; i++) {
-        imgs[i].addEventListener('click', (e) => {
+        imgs[i].addEventListener('click', e => {
           e.stopPropagation()
           _this.isBigImg = true
           _this.img = imgs[i].getAttribute('src')
         })
       }
     },
-    tocInit () {
+    tocInit() {
       const headingSelector = 'h1, h2, h3, h4'
-      const body = document.getElementsByClassName('markdown-body')
+      const body = document.getElementsByClassName('markdown-content')
       if (body) {
         const tag = body[0].querySelectorAll(headingSelector)
         tag.forEach(function(el) {
-          el.setAttribute('id', el.innerHTML)
+          el.setAttribute('id', el.textContent)
         })
       }
+
       tocbot.init({
         tocSelector: '.markdown-toc',
-        contentSelector: '.markdown-body',
-        headingSelector
+        contentSelector: '.markdown-content',
+        headingSelector: 'h1,h2,h3,h4',
+        scrollSmooth: true,
+        scrollSmoothOffset: -200,
+        headingsOffset: 200
       })
       // 延时显示，防止闪烁
       setTimeout(function() {
@@ -93,8 +105,8 @@ export default {
       }, 500)
     }
   },
-  head () {
-    return { title: `${this.post.title}` }
+  head() {
+    return { title: `${this.article.title}` }
   }
 }
 </script>
@@ -102,7 +114,7 @@ export default {
 <style>
 @import '~/assets/css/markdown-toc.css';
 
-#article .markdown-body img {
+#article .markdown-content img {
   max-width: 100%;
   margin: 0.5rem auto;
   display: block;
@@ -201,5 +213,10 @@ export default {
   .article-title {
     font-size: 1.8em;
   }
+}
+
+.tag {
+  display: flex !important;
+  justify-content: space-between;
 }
 </style>
