@@ -1,4 +1,5 @@
 import api from '../plugins/api'
+import tools from '../plugins/tools'
 import defaultConfig from './default-config'
 
 const config = [
@@ -6,10 +7,12 @@ const config = [
   {
     path: '/feed.xml', // The route to your feed.
     async create(feed) {
+      const result = await api.getSetting()
+      const setting = result.data
       feed.options = {
-        title: defaultConfig.meta_title,
-        link: defaultConfig.blog_website + '/feed.xml',
-        description: defaultConfig.meta_description
+        title: setting.meta_title || defaultConfig.meta_title,
+        link: tools.formatWebsite(setting.blog_website) + '/feed.xml',
+        description: setting.meta_description || defaultConfig.meta_description
       }
       const res = await api.getAllArticle()
       const articles = res.data
@@ -17,7 +20,7 @@ const config = [
         feed.addItem({
           title: article.title,
           id: article.id,
-          link: defaultConfig.blog_website + '/article/' + article.id,
+          link: tools.formatWebsite(setting.blog_website) + '/article/' + article.id,
           description: article.summaryContent,
           content: article.summaryContent
         })

@@ -30,5 +30,14 @@ export const actions = {
   async getArchive({ commit }) {
     const { data } = await api.getArchives()
     commit('archive/SET_DATA', data)
+  },
+  // 前端设置
+  async getSetting({ commit }) {
+    const { data } = await api.getSetting()
+    commit('setting/SET_DATA', data)
+  },
+  // 全局服务初始化
+  async nuxtServerInit({ dispatch }) {
+    await dispatch('getSetting')
   }
 }

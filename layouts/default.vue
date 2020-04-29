@@ -23,30 +23,35 @@ export default {
     FameFooter,
     FameScrollTop
   },
+  computed: {
+    settings() {
+      return this.$store.state.setting.data
+    }
+  },
   head() {
     return {
-      title: defaultConfig.meta_title,
-      titleTemplate: '%s - ' + defaultConfig.meta_title,
+      title: `${this.settings.meta_title}` || defaultConfig.meta_title,
+      titleTemplate: '%s - ' + this.settings.meta_title || defaultConfig.meta_title,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: defaultConfig.meta_description
+          content: this.settings.meta_description || defaultConfig.meta_description
         },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: defaultConfig.meta_keywords
+          content: this.settings.meta_keywords || defaultConfig.meta_keywords
         },
         {
           hid: 'google-site-verification',
           name: 'google-site-verification',
-          content: defaultConfig.google_site_verification
+          content: this.settings.google_site_verification || defaultConfig.google_site_verification
         },
         {
           hid: 'baidu-site-verification',
           name: 'baidu-site-verification',
-          content: defaultConfig.baidu_site_verification
+          content: this.settings.baidu_site_verification || defaultConfig.baidu_site_verification
         }
       ]
     }

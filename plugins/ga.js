@@ -1,4 +1,3 @@
-import defaultConfig from '../config/default-config'
 /* eslint-disable */
 export default ({ app, store }) => {
   /*
@@ -6,8 +5,9 @@ export default ({ app, store }) => {
    */
   if (process.env.NODE_ENV === 'development') return
 
-  if (!defaultConfig.google_analytics || defaultConfig.google_analytics === '') return
-  const google_analytics = defaultConfig.google_analytics
+  const settings = store.state.setting.data
+  if (!settings || !settings.google_analytics || settings.google_analytics === '') return
+  const google_analytics = settings.google_analytics
   /*
    ** Include Google Analytics Script
    */

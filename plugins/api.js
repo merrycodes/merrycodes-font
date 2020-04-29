@@ -23,8 +23,8 @@ const api = {
   getArchives() {
     return get('/archive')
   },
-  getOptions() {
-    return get('/option')
+  getSetting() {
+    return get('/setting')
   }
 }
 

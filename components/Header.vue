@@ -3,7 +3,7 @@
     <div class="header-container">
       <nuxt-link class="logo" :to="'/'">
         <img src="/logo.png" width="26px" height="26px" />
-        <span class="text-primary" style="margin-left: 10px">{{ 'MerryCodes' }}</span>
+        <span class="text-primary" style="margin-left: 10px">{{ settings.blog_name || 'MerryCodes' }}</span>
       </nuxt-link>
       <ul class="tab link-list">
         <li v-for="(list, index) in links" :key="index" class="tab-item">
@@ -52,6 +52,11 @@ export default {
   data() {
     return {
       links: []
+    }
+  },
+  computed: {
+    settings() {
+      return this.$store.state.setting.data
     }
   },
   mounted() {

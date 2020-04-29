@@ -34,8 +34,10 @@
       </div>
     </div>
     <nav class="markdown-toc toc"></nav>
-    <h2 style="color: rgb(61, 80, 100); border-top: 1px dashed rgb(61, 80, 100); padding-top: 15px; margin-top: 30px;">发表评论：</h2>
-    <gitalk></gitalk>
+    <div v-if="article.allowComment">
+      <h2 style="color: rgb(61, 80, 100); border-top: 1px dashed rgb(61, 80, 100); padding-top: 15px; margin-top: 30px;">发表评论：</h2>
+      <gitalk></gitalk>
+    </div>
     <big-img :visible.sync="isBigImg" :img="img"></big-img>
   </div>
 </template>
