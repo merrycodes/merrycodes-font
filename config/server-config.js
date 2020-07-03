@@ -6,7 +6,6 @@ const config = {
 
 config.env = process.env.NODE_ENV
 
-console.log(config.env)
 switch (config.env) {
   case 'production':
     config.url = ''

@@ -48,6 +48,7 @@ export default {
         href: 'https://fonts.font.im/css?family=Roboto|Source+Code+Pro'
       }
     ],
+    script: [{ type: 'text/javascript', src: '/js/swiftype.js' }],
     noscript: [{ innerHTML: 'This website requires JavaScript.' }]
   },
   /*

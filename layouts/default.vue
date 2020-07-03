@@ -31,7 +31,7 @@ export default {
   head() {
     return {
       title: `${this.settings.meta_title}` || defaultConfig.meta_title,
-      titleTemplate: '%s - ' + this.settings.meta_title || defaultConfig.meta_title,
+      titleTemplate: '%s - ' + (this.settings.meta_title || defaultConfig.meta_title),
       meta: [
         {
           hid: 'description',

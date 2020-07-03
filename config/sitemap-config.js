@@ -20,7 +20,7 @@ const config = {
       })
     })
   },
-  exclude: STATIC_ROUTE
+  exclude: STATIC_ROUTE.map(item => item.substring(item.indexOf('/') + 1))
 }
 
 export default {

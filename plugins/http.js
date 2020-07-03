@@ -5,7 +5,7 @@ import qs from 'qs'
 const Axios = axios.create({
   baseURL: serverConfig.url + '/api/', // 本地做反向代理
   timeout: 5000,
-  withCredentials: true, // 是否允许带cookie这些
+  withCredentials: false, // 是否允许带cookie这些
   // 转换request参数，只有'PUT', 'POST', 'PATCH' and 'DELETE'方法才会生效
   transformRequest: [
     data => {
