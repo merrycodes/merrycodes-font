@@ -19,6 +19,7 @@
     "cross-env": "^6.0.3",
     "gitalk": "^1.6.2",
     "highlight.js": "^9.16.2",
+    "nprogress": "^0.2.0",
     "nuxt": "^2.12.2",
     "tocbot": "^4.11.1",
     "underscore": "^1.9.1"

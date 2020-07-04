@@ -71,7 +71,8 @@ export default {
     { src: '~plugins/ga.js', mode: 'client' },
     { src: '~plugins/filters.js' },
     { src: '~plugins/global.js' },
-    { src: '~plugins/tools.js' }
+    { src: '~plugins/tools.js' },
+    { src: '~plugins/loading.js' }
   ],
   router: {
     linkActiveClass: 'active',
@@ -92,12 +93,6 @@ export default {
         return position
       }
     }
-  },
-  /*
-   ** Customize the progress bar color
-   */
-  loading: {
-    color: '#5764c6'
   },
   env: {
     NODE_ENV: process.env.NODE_ENV
